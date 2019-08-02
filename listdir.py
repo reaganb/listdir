@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # Initializing the Listdir object together with its arguments
+    # Initialize the Listdir object together with its arguments
     # First argument: The path of the directory
     # Second argument: The destination file (.csv)
     listdir = ListDir(args.path, args.dest)
