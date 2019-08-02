@@ -34,7 +34,7 @@ $ python --version
 ```
 $ python listdir.py .
 ```
-The basic example using the default argument of providing the directory path only.
+The basic example using the default argument of providing the directory path only. The current directory (.) for this example.
 
 output:
 ```
@@ -55,6 +55,7 @@ C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4b.txt
 C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4c.txt
 C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4d.txt
 ```
+***Note:*** The output will vary in every system. In this case, the dot (.) or the current directory is the first argument and its absolute path was "C:\Users\USER\Projects\listdir\" in the system where the script was executed.
 
 ```
 $ python listdir.py . -d out
