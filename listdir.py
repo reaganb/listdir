@@ -28,7 +28,7 @@ class ListDir:
         """Create the csv file from the recursive listing"""
         files = glob.glob(f'{self.path}/**', recursive=True)
 
-        with open(self.csv_file, 'w+') as file:
+        with open(f'{self.csv_file}.csv', 'w+') as file:
             file.write('parent path,filename,filesize')
             for csv in files:
                 if op.isfile(csv):
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('path', help="the source file")
-    parser.add_argument('dest', help="the destination csv file")
+    parser.add_argument('dest', help="the destination csv filename")
 
     args = parser.parse_args()
 
