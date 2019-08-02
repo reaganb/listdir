@@ -26,9 +26,9 @@ $ python --version
 
 #### Example:
 ```
-$ python listdir.py . out.csv
+$ python listdir.py . out
 ```
-In this example, the script is executed in the current directory (.) and assign out.csv as the output file.
+In this example, the script is executed in the current directory (.) and assign "out" as the output filename.
 
 output (out.csv):
 ```
@@ -50,5 +50,5 @@ parent path,filename,filesize
 "C:\Users\USER\Projects\listdir", "Pipfile.lock", 1916
 "C:\Users\USER\Projects\listdir", "README.md", 1260
 ```
-***Note:*** The script is limited to only two arguments. The first is the directory path and the second is the output file (.csv). It will raise an error if a file path is placed as the first argument.
+***Note:*** The script is limited to only two arguments. The first is the directory path and the second is the output filename. It will raise an error if a file path is placed as the first argument.
 
