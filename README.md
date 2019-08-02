@@ -64,22 +64,17 @@ In this example, the script is executed in the current directory (.) and assign 
 output (out.csv):
 ```
 parent path,filename,filesize
-"C:\Users\USER\Projects\listdir", "exercise.py", 557
-"C:\Users\USER\Projects\listdir", "listdir.py", 1922
-"C:\Users\USER\Projects\listdir\lvl1", "1.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2b.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0
-"C:\Users\USER\Projects\listdir", "out.csv", 0
-"C:\Users\USER\Projects\listdir", "Pipfile", 151
-"C:\Users\USER\Projects\listdir", "Pipfile.lock", 1916
-"C:\Users\USER\Projects\listdir", "README.md", 1260
+"C:\Users\TEU_USER\TrendProjects\listdir", "listdir.py", 2168
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1", "1.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2", "2.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2", "2b.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0
+"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0
 ```
 ***Note:*** The script is limited to only two arguments. The first is the directory path and the second is the output filename which is optional. It will raise an error if a file path is placed as the first argument.
 
