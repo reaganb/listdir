@@ -14,11 +14,11 @@ class ListDir:
         properties"""
         self.path = op.abspath(path)
 
-        # Checking if the path exist
+        # Check if the path exist
         if not op.exists(self.path):
             print('Error: Path does not exist!')
             exit(0)
-        # Checking if only a path, not a file is given as the argument
+        # Check if only a path, not a file is given as the argument
         elif not op.isdir(self.path):
             print('Error: Path are only allowed as the argument')
             exit(0)
