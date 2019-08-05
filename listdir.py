@@ -1,5 +1,9 @@
+import zipfile
+import hashlib
+import configparser
 import argparse
 import os.path as op
+import os
 import glob
 
 
@@ -9,11 +13,16 @@ class ListDir:
     listing of files in a certain path and writing it to another
     file (csv).
     """
-    def __init__(self, path, dest):
+    def __init__(self, **config_args):
         """The init function consists of the path and destination file(csv)
-        properties"""
+        properties
 
-        self.path = op.abspath(path)
+        Keyword arguments:
+        config_args['path'] -- the directory path for recursive listing
+        config_args['dest'] -- the output file
+        """
+
+        self.path = op.abspath(config_args['path'])
         # Check if the path exist
         if not op.exists(self.path):
             print('Error: Path does not exist!')
@@ -23,7 +32,7 @@ class ListDir:
             print('Error: Path are only allowed as the argument')
             exit(0)
 
-        self.csv_file = dest
+        self.csv_file = config_args['dest']
         self.files = glob.glob(f'{self.path}/**', recursive=True)
 
     def print_files(self):
@@ -32,37 +41,71 @@ class ListDir:
         for file in self.files:
             print(file)
 
-    def output_csv(self):
-        """Create the csv file from the recursive listing"""
+    @staticmethod
+    def hash_file(file, algorithm):
+        """The method for computing the checksum hashing of the file depending on the algorithm provided
 
-        with open(f'{self.csv_file}.csv', 'w+') as file:
-            file.write('parent path,filename,filesize')
-            for csv in self.files:
-                if op.isfile(csv):
-                    dir = f"\"{op.dirname(csv)}\""
-                    fname = f"\"{op.basename(csv)}\""
-                    size = op.getsize(csv)
-                    file.write(f"\n{dir}, {fname}, {size}")
+        Keyword arguments:
+        file -- the directory path for recursive listing
+        algorithm -- the algorithm to use (default 'md5')
+        """
+
+        block_size = 65536
+        if algorithm == 'sha1':
+            hasher = hashlib.sha1()
+        else:
+            hasher = hashlib.md5()
+
+        with open(file, 'rb') as hash_file:
+            buf = hash_file.read(block_size)
+            while len(buf) > 0:
+                hasher.update(buf)
+                buf = hash_file.read(block_size)
+
+        return hasher.hexdigest()
+
+    def output_zip(self):
+        """Create the csv format file from the recursive listing"""
+
+        with zipfile.ZipFile(f'{self.csv_file}.zip', 'w') as zip_file:
+            with open(self.csv_file, 'w+') as file:
+                file.write('parent path,filename,filesize,md5,sha1')
+
+                for csv in self.files:
+                    if op.isfile(csv):
+                        directory = f"\"{op.dirname(csv)}\""
+                        file_name = f"\"{op.basename(csv)}\""
+                        md5 = self.hash_file(csv, 'md5')
+                        sha1 = self.hash_file(csv, 'sha1')
+                        size = op.getsize(csv)
+                        file.write(f"\n{directory}, {file_name}, {size}, {md5}, {sha1}")
+
+            zip_file.write(self.csv_file)
 
 
 if __name__ == "__main__":
-    # The starting point of the script and
-    # the code for the command line arguments
+    # The starting point of the script.
+    # The code for the command line arguments and
+    # configuration file parsing
     parser = argparse.ArgumentParser()
+    config = configparser.ConfigParser()
+    config.read(op.join(op.dirname(op.abspath(__file__)), 'config.ini'))
 
-    parser.add_argument('path', help="the source file")
-    parser.add_argument('-d', '--destination', dest='filename',
+    parser.add_argument('-s', '--source', dest='path', default=config['args']['path'],
+                        help="the source file")
+    parser.add_argument('-d', '--destination', dest='dest', default=config['args']['dest'],
                         help="the destination csv filename")
 
     args = parser.parse_args()
 
-    # Initialize the Listdir object together with its arguments
-    # First argument: The path of the directory
-    # Second argument: The destination file (.csv), default is None
-    listdir = ListDir(args.path, args.filename)
+    config['args']['path'] = args.path
+    config['args']['dest'] = args.dest
 
-    # Running the functions of the Class ListDir
-    if args.filename is not None:
-        listdir.output_csv()
-    else:
-        listdir.print_files()
+    # Initialize the Listdir object together with its arguments
+    # path argument: The path of the directory
+    # dest argument: The destination file (.csv)
+    listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
+
+    # Running the functions of the object
+    listdir.print_files()
+    listdir.output_zip()
