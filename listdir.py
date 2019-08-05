@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     # Initialize the Listdir object together with its arguments
     # path argument: The path of the directory
-    # dest argument: The destination file (.csv)
+    # dest argument: The destination file
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
     # Running the functions of the object
