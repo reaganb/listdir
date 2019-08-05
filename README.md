@@ -1,17 +1,17 @@
-# Machine Problem: listdir
+# Machine Problem: listdir with hashes
 
-#### Develop an application with the following requirements:
+#### Add more features to the application you made in the previous Machine Problem. Here are the additional requirements:
 
-1. Take the path of a directory and list the files (recursively)
-2. Output the files in a CSV  (comma separated value) file. 
-3. Here are the columns of the CSV: parent path, filename, filesize
-4. Here's what a row should look like: "D:\Downloads","setup.exe",1048576
-5. The output filename should be set by the user using command line arguments
-6. Commit your code in GitHub under the project listdir. Post the link to the project here
+1. Add 2 new columns to the output: md5 and sha1
+2. The data under these columns should include the respective hashes of the file
+3. The output file should be zipped
+4. If the user set the output filename to be out.txt, it should now output out.txt.zip
+5. Commit your code under the branch: listdir-with-hashes
+6. Submit the link to the project here
 
-## The lisdir.py python script
+## The listdir.py python script
 
-The python script has the functionality to recursively read and list files of a directory path and write the output to another file (csv format). 
+The python script has the functionality to recursively read and list files of a directory path and write the output to another file (csv format) and archive that file (zip). 
 
 ### Prerequisites
 1. Windows/Linux OS
@@ -24,58 +24,34 @@ Check if it is installed by executing the following command on the terminal.
 $ python --version
 ```
 
-### Modes
-
-**PRINT** - List recursively the files/directories of the given path.
-
-**WRITE** - Running the script with the -d option and a filename argument, it will write to a csv file with the given filename.
-
 #### Examples:
 ```
-$ python listdir.py .
+$ python listdir.py . -d out.txt
 ```
-The basic example using the default argument of providing the directory path only. The current directory (.) for this example.
+In this example, the script is executed in the current directory (.) and assign out.txt as the output file.
+
+output (out.txt):
+```
+parent path,filename,filesize,md5,sha1
+"C:\Users\USER\Projects\listdir", "listdir.py", 3837, b7800f7cb6c6b78cffcaf561e40169a8, 1c7fef433173171946f914294782195f4e873f99
+"C:\Users\USER\Projects\listdir\lvl1", "1.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+```
+
+```
+$ ls
+```
+One function of the script is that it will archive the output file into a zip format.
 
 output:
 ```
-C:\Users\USER\Projects\listdir\
-C:\Users\USER\Projects\listdir\listdir.py
-C:\Users\USER\Projects\listdir\lvl1
-C:\Users\USER\Projects\listdir\lvl1\1.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2
-C:\Users\USER\Projects\listdir\lvl1\lvl2\2.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\2b.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\3.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\3b.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\3c.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4b.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4c.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4d.txt
+listdir.py  out.txt out.txt.zip
 ```
-***Note:*** The output will vary in every system. In this case, the dot (.) or the current directory is the first argument and its absolute path was "C:\Users\USER\Projects\listdir\" in the system where the script was executed.
-
-```
-$ python listdir.py . -d out
-```
-In this example, the script is executed in the current directory (.) and assign "out" as the output filename using the -d option.
-
-output (out.csv):
-```
-parent path,filename,filesize
-"C:\Users\TEU_USER\TrendProjects\listdir", "listdir.py", 2168
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1", "1.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2", "2.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2", "2b.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0
-```
-***Note:*** The script is limited to only two arguments. The first is the directory path and the second is the output filename which is optional. It will raise an error if a file path is placed as the first argument.
-
