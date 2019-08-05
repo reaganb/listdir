@@ -1,17 +1,17 @@
-# Machine Problem: listdir
+# Machine Problem: Config files
 
-#### Develop an application with the following requirements:
+#### This machine problem builds on your work from on the previous one.
+#### Requirements: 
 
-1. Take the path of a directory and list the files (recursively)
-2. Output the files in a CSV  (comma separated value) file. 
-3. Here are the columns of the CSV: parent path, filename, filesize
-4. Here's what a row should look like: "D:\Downloads","setup.exe",1048576
-5. The output filename should be set by the user using command line arguments
-6. Commit your code in GitHub under the project listdir. Post the link to the project here
+1. Modify your work on Machine Problem "listdir with hashes" and create a config file for it
+2. The config file should contain the input directory and the output file
+3. Your application should still support the command line arguments for the value of the input directory and output file
+4. If the command line argument is present, use its value instead of the value in the config file. If its not present, use the value of the config file
+5. Commit your work in GitHub to a new branch named "config". Paste the link of the branch here.
 
-## The lisdir.py python script
+## The listdir.py python script
 
-The python script has the functionality to recursively read and list files of a directory path and write the output to another file (csv format). 
+The python script has the functionality to recursively read and list files of a directory path and write the output to another file (csv format) and archive that file (zip). 
 
 ### Prerequisites
 1. Windows/Linux OS
@@ -24,58 +24,41 @@ Check if it is installed by executing the following command on the terminal.
 $ python --version
 ```
 
-### Modes
-
-**PRINT** - List recursively the files/directories of the given path.
-
-**WRITE** - Running the script with the -d option and a filename argument, it will write to a csv file with the given filename.
-
 #### Examples:
 ```
-$ python listdir.py .
+$ python listdir.py
 ```
-The basic example using the default argument of providing the directory path only. The current directory (.) for this example.
+In this example, the script is executed as it is. It will still run despite that because the code has a config parser that provides a configuration file.
+
+output (out.txt):
+```
+parent path,filename,filesize,md5,sha1
+"C:\Users\USER\Projects\listdir", "listdir.py", 3837, b7800f7cb6c6b78cffcaf561e40169a8, 1c7fef433173171946f914294782195f4e873f99
+"C:\Users\USER\Projects\listdir\lvl1", "1.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+```
+Contents of config.ini
+```
+[args]
+path = .
+dest = out.txt
+```
+The ***args*** is the section and ***path*** and ***dest*** are its variables. Based on this configuration file, the path is the current working directory and the output file would be out.txt.
+
+```
+$ ls
+```
+One function of the script is that it will archive the output file into a zip format.
 
 output:
 ```
-C:\Users\USER\Projects\listdir\
-C:\Users\USER\Projects\listdir\listdir.py
-C:\Users\USER\Projects\listdir\lvl1
-C:\Users\USER\Projects\listdir\lvl1\1.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2
-C:\Users\USER\Projects\listdir\lvl1\lvl2\2.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\2b.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\3.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\3b.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\3c.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4b.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4c.txt
-C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4\4d.txt
+listdir.py  out.txt out.txt.zip
 ```
-***Note:*** The output will vary in every system. In this case, the dot (.) or the current directory is the first argument and its absolute path was "C:\Users\USER\Projects\listdir\" in the system where the script was executed.
-
-```
-$ python listdir.py . -d out
-```
-In this example, the script is executed in the current directory (.) and assign "out" as the output filename using the -d option.
-
-output (out.csv):
-```
-parent path,filename,filesize
-"C:\Users\TEU_USER\TrendProjects\listdir", "listdir.py", 2168
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1", "1.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2", "2.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2", "2b.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0
-"C:\Users\TEU_USER\TrendProjects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0
-```
-***Note:*** The script is limited to only two arguments. The first is the directory path and the second is the output filename which is optional. It will raise an error if a file path is placed as the first argument.
-
