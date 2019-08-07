@@ -33,8 +33,7 @@ class ListDir:
             exit(0)
 
         self.csv_file = config_args['dest']
-        list_files = glob.iglob(f'{self.path}/**', recursive=True)
-        self.files = [file for file in list_files]
+        self.files = glob.iglob(f'{self.path}/**', recursive=True)
 
     def print_files(self):
         """List files/directories recursively based on the given path"""
@@ -110,5 +109,5 @@ if __name__ == "__main__":
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
     # Running the methods of the object
-    listdir.print_files()
+    # listdir.print_files()
     listdir.output_zip()
