@@ -2,9 +2,9 @@ import zipfile
 import hashlib
 import configparser
 import argparse
-import os.path as op
-import os
 import glob
+from datetime import datetime as dt
+import os.path as op
 
 
 class ListDir:
@@ -33,7 +33,8 @@ class ListDir:
             exit(0)
 
         self.csv_file = config_args['dest']
-        self.files = glob.glob(f'{self.path}/**', recursive=True)
+        list_files = glob.iglob(f'{self.path}/**', recursive=True)
+        self.files = [file for file in list_files]
 
     def print_files(self):
         """List files/directories recursively based on the given path"""
@@ -67,7 +68,9 @@ class ListDir:
     def output_zip(self):
         """Create the csv format file from the recursive listing"""
 
-        with zipfile.ZipFile(f'{self.csv_file}.zip', 'w') as zip_file:
+        today = dt.today()
+        zip_datetime = today.strftime('%Y-%m-%d-%H%M%S')
+        with zipfile.ZipFile(f'{self.csv_file}_{zip_datetime}.zip', 'w') as zip_file:
             with open(self.csv_file, 'w+') as file:
                 file.write('parent path,filename,filesize,md5,sha1')
 
@@ -106,6 +109,6 @@ if __name__ == "__main__":
     # dest argument: The destination file
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
-    # Running the functions of the object
+    # Running the methods of the object
     listdir.print_files()
     listdir.output_zip()
