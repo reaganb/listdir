@@ -38,8 +38,8 @@ class ListDir:
     def print_files(self):
         """List files/directories recursively based on the given path"""
 
-        for file in self.files:
-            print(file)
+        # Print all files using the string join method and list comprehension technique
+        print('\n'.join([file for file in self.files]))
 
     @staticmethod
     def hash_file(file, algorithm):
@@ -109,5 +109,5 @@ if __name__ == "__main__":
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
     # Running the methods of the object
-    # listdir.print_files()
+    listdir.print_files()
     listdir.output_zip()
