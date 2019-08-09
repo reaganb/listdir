@@ -33,7 +33,13 @@ class ListDir:
             exit(0)
 
         self.csv_file = config_args['dest']
-        self.files = glob.iglob(f'{self.path}/**', recursive=True)
+        self.files = self.generate_files(self.path)
+
+    @staticmethod
+    def generate_files(path):
+        """A static generator type method for generating the file list"""
+        for fc in glob.iglob(f'{path}/**',recursive=True):
+            yield fc
 
     def print_files(self):
         """List files/directories recursively based on the given path"""
@@ -81,6 +87,7 @@ class ListDir:
                         sha1 = self.hash_file(csv, 'sha1')
                         size = op.getsize(csv)
                         file.write(f"\n{directory}, {file_name}, {size}, {md5}, {sha1}")
+                        print(f"\n{directory}, {file_name}, {size}, {md5}, {sha1}")
 
             zip_file.write(self.csv_file)
 
@@ -109,5 +116,5 @@ if __name__ == "__main__":
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
     # Running the methods of the object
-    listdir.print_files()
+    # listdir.print_files()
     listdir.output_zip()
