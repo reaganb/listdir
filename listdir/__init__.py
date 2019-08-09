@@ -116,5 +116,5 @@ if __name__ == "__main__":
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
     # Running the methods of the object
-    # listdir.print_files()
+    listdir.print_files()
     listdir.output_zip()
