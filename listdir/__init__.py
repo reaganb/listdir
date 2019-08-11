@@ -33,22 +33,10 @@ class ListDir:
             exit(0)
 
         self.csv_file = config_args['dest']
-        self.files = self.generate_files(self.path)
+        self.files = glob.iglob(f"{self.path}/**", recursive=True)
 
     @staticmethod
-    def generate_files(path):
-        """A static generator type method for generating the file list"""
-        for fc in glob.iglob(f'{path}/**',recursive=True):
-            yield fc
-
-    def print_files(self):
-        """List files/directories recursively based on the given path"""
-
-        # Print all files using the string join method and list comprehension technique
-        print('\n'.join([file for file in self.files]))
-
-    @staticmethod
-    def hash_file(file, algorithm):
+    def hash_file(file, algorithm='md5'):
         """The method for computing the checksum hashing of the file depending on the algorithm provided
 
         Keyword arguments:
@@ -57,10 +45,10 @@ class ListDir:
         """
 
         block_size = 65536
+        hasher = hashlib.md5()
         if algorithm == 'sha1':
             hasher = hashlib.sha1()
-        else:
-            hasher = hashlib.md5()
+
 
         with open(file, 'rb') as hash_file:
             buf = hash_file.read(block_size)
@@ -76,20 +64,22 @@ class ListDir:
         today = dt.today()
         zip_datetime = today.strftime('%Y-%m-%d-%H%M%S')
         with zipfile.ZipFile(f'{self.csv_file}_{zip_datetime}.zip', 'w') as zip_file:
+
             with open(self.csv_file, 'w+') as file:
                 file.write('parent path,filename,filesize,md5,sha1')
 
-                for csv in self.files:
-                    if op.isfile(csv):
-                        directory = f"\"{op.dirname(csv)}\""
-                        file_name = f"\"{op.basename(csv)}\""
-                        md5 = self.hash_file(csv, 'md5')
-                        sha1 = self.hash_file(csv, 'sha1')
-                        size = op.getsize(csv)
-                        file.write(f"\n{directory}, {file_name}, {size}, {md5}, {sha1}")
-                        print(f"\n{directory}, {file_name}, {size}, {md5}, {sha1}")
+                for line in (self.mdata_to_list(csv) for csv in self.files if op.isfile(csv)):
+                    file.write(f"\n{line}")
 
             zip_file.write(self.csv_file)
+
+    def mdata_to_list(self, csv):
+        directory = f"\"{op.dirname(csv)}\""
+        file_name = f"\"{op.basename(csv)}\""
+        md5 = self.hash_file(csv, 'md5')
+        sha1 = self.hash_file(csv, 'sha1')
+        size = op.getsize(csv)
+        return f"{directory}, {file_name}, {size}, {md5}, {sha1}"
 
 
 if __name__ == "__main__":
@@ -116,5 +106,4 @@ if __name__ == "__main__":
     listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
 
     # Running the methods of the object
-    listdir.print_files()
     listdir.output_zip()
