@@ -1,11 +1,3 @@
-# Machine Problem: Date and Time
-
-#### Requirements: 
-
-1. Modify Machine Problem "Config files" to include the date and time in the filename of the output.
-2. Use your best judgement on where to put it and how should it be formatted.
-3. Commit your code to a branch named "with-date-filename" in the same project repository
-
 ## The listdir.py python script
 
 The python script has the functionality to recursively read and list files of a directory path and write the output to another file (csv format) and archive that file (zip). The zip file has a name format combining csv format file name and the current date and time of creation (out.txt_YYYY-MM-DD-HHmmss.zip). The filename of the zip file conform to the ISO 8601 format standard.
