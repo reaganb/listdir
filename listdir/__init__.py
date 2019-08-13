@@ -1,6 +1,7 @@
 import zipfile
 import hashlib
 import glob
+import configparser
 from datetime import datetime as dt
 import os.path as op
 
@@ -11,7 +12,7 @@ class ListDir:
     listing of files in a certain path and writing it to another
     file (csv).
     """
-    def __init__(self, **config_args):
+    def __init__(self, path='.', dest='out.txt'):
         """The init function consists of the path and destination file(csv)
         properties
 
@@ -20,7 +21,7 @@ class ListDir:
         config_args['dest'] -- the output file
         """
 
-        self.path = op.abspath(config_args['path'])
+        self.path = op.abspath(path)
         # Check if the path exist
         if not op.exists(self.path):
             print('Error: Path does not exist!')
@@ -30,7 +31,7 @@ class ListDir:
             print('Error: Path are only allowed as the argument')
             exit(0)
 
-        self.csv_file = config_args['dest']
+        self.csv_file = dest
         self.files = glob.iglob(f'{self.path}/**', recursive=True)
 
     def print_files(self):
