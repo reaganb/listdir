@@ -38,6 +38,11 @@ $ python3 # Run a Python 3 interpreter shell
 >>> dest = 'out.txt'
 >>> ld = ListDir(path=path, dest=dest)
 ```
+or
+```
+>>> ld = ListDir()
+```
+Either of the two will result the same object. The default path is the current working directory (.) and the default dest file is out.txt
 
 #### Run the methods of the object
 ```
