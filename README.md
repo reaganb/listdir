@@ -46,6 +46,13 @@ Either of the two will result the same object. The default path is the current w
 
 #### Run the methods of the object
 ```
+>>> ld.output_zip()
+>>> exit()
+$ ls .
+lvl1 out.txt out.txt_2019-08-13-151455.zip 
+```
+
+```
 >>> ld.print_files()
 C:\Users\USER\Desktop\listdir-test\
 C:\Users\USER\Desktop\listdir-test\lvl1
@@ -64,11 +71,4 @@ C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4\4c.txt
 C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4\4d.txt
 ```
 The print_files() method returns a listed contents of the given directory path.
-
-```
->>> ld.output_zip()
->>> exit()
-$ ls .
-lvl1 out.txt out.txt_2019-08-13-151455.zip 
-```
 The output_zip() will not return anything on the output. Exit the interpreter shell and list the directory/files of the given directory path. The method will produce the file and the versioned zip file.
