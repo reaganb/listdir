@@ -17,8 +17,8 @@ class ListDir:
         properties
 
         Keyword arguments:
-        config_args['path'] -- the directory path for recursive listing
-        config_args['dest'] -- the output file
+        path -- the directory path for recursive listing
+        dest -- the output file
         """
 
         self.path = op.abspath(path)
