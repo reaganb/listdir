@@ -1,61 +1,69 @@
-# Machine Problem: Date and Time
+# Machine Problem: Packaging
 
 #### Requirements: 
 
-1. Modify Machine Problem "Config files" to include the date and time in the filename of the output.
-2. Use your best judgement on where to put it and how should it be formatted.
-3. Commit your code to a branch named "with-date-filename" in the same project repository
+1. Use what you've learned about packaging Python projects and apply it to your project from Machine Problem "Date and Time"
+2. Commit your code to GitHub and paste the link of the branch here. Name the branch as "packaging"
 
-## The listdir.py python script
+## The listdir module
 
-The python script has the functionality to recursively read and list files of a directory path and write the output to another file (csv format) and archive that file (zip). The zip file has a name format combining csv format file name and the current date and time of creation (out.txt_YYYY-MM-DD-HHmmss.zip). The filename of the zip file conform to the ISO 8601 format standard.
+The python module has the functionality to recursively read and list files of a directory path and write the output to another file (csv format) and archive that file (zip). The zip file has a name format combining csv format file name and the current date and time of creation (out.txt_YYYY-MM-DD-HHmmss.zip). The filename of the zip file conform to the ISO 8601 format standard.
 
 ### Prerequisites
 1. Windows/Linux OS
 2. Python 3
 
 ### Usage
-The script will work as long as there is Python 3 installed on the system.
+The module will work as long as there is Python 3 installed on the system.
 Check if it is installed by executing the following command on the terminal.
 ```
 $ python --version
 ```
 
-#### Examples:
+### Installation
 ```
-$ python listdir.py
+$ pip install listdir-rgb
 ```
-In this example, the script is executed as it is. It will still run despite that because the code has a config parser that provides a configuration file.
 
-output (out.txt):
+
+#### Importing the module
 ```
-parent path,filename,filesize,md5,sha1
-"C:\Users\USER\Projects\listdir", "listdir.py", 3837, b7800f7cb6c6b78cffcaf561e40169a8, 1c7fef433173171946f914294782195f4e873f99
-"C:\Users\USER\Projects\listdir\lvl1", "1.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2", "2b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3", "3c.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4b.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4c.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
-"C:\Users\USER\Projects\listdir\lvl1\lvl2\lvl3\lvl4", "4d.txt", 0, d41d8cd98f00b204e9800998ecf8427e, da39a3ee5e6b4b0d3255bfef95601890afd80709
+$ python3 # Run a Python 3 interpreter shell
+>>> from listdir import ListDir
 ```
-Contents of config.ini
+
+#### Create a ListDir object
 ```
-[args]
-path = .
-dest = out.txt
+>>> path = '.'
+>>> dest = 'out.txt'
+>>> ld = ListDir(path=path, dest=dest)
 ```
-The ***args*** is the section and ***path*** and ***dest*** are its variables. Based on this configuration file, the path is the current working directory and the output file would be out.txt.
+
+#### Run the methods of the object
+```
+>>> ld.print_files()
+C:\Users\USER\Desktop\listdir-test\
+C:\Users\USER\Desktop\listdir-test\lvl1
+C:\Users\USER\Desktop\listdir-test\lvl1\1.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\2.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\2b.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\3.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\3b.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\3c.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4\4.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4\4b.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4\4c.txt
+C:\Users\USER\Desktop\listdir-test\lvl1\lvl2\lvl3\lvl4\4d.txt
+```
+The print_files() method returns a listed contents of the given directory path.
 
 ```
-$ ls
+>>> ld.output_zip()
+>>> exit()
+$ ls .
+lvl1 out.txt out.txt_2019-08-13-151455.zip 
 ```
-One function of the script is that it will archive the output file into a zip type.
-
-output:
-```
-listdir.py  out.txt out.txt_2019-08-07-133924.zip
-```
+The output_zip() will not return anything on the output. Exit the interpreter shell and list the directory/files of the given directory path. The method will produce the file and the versioned zip file.
