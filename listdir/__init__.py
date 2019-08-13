@@ -1,7 +1,5 @@
 import zipfile
 import hashlib
-import configparser
-import argparse
 import glob
 from datetime import datetime as dt
 import os.path as op
@@ -65,7 +63,8 @@ class ListDir:
         return hasher.hexdigest()
 
     def output_zip(self):
-        """Create the csv format file from the recursive listing"""
+        """Create the csv format file from the recursive listing.
+        It will also produce a versioned zip file with a date/time format."""
 
         today = dt.today()
         zip_datetime = today.strftime('%Y-%m-%d-%H%M%S')
@@ -83,31 +82,3 @@ class ListDir:
                         file.write(f"\n{directory}, {file_name}, {size}, {md5}, {sha1}")
 
             zip_file.write(self.csv_file)
-
-
-if __name__ == "__main__":
-    # The starting point of the script.
-    # The code for the command line arguments and
-    # configuration file parsing
-    parser = argparse.ArgumentParser()
-    config = configparser.ConfigParser()
-    config.read(op.join(op.dirname(op.abspath(__file__)), 'config.ini'))
-
-    parser.add_argument('-s', '--source', dest='path', default=config['args']['path'],
-                        help="the source file")
-    parser.add_argument('-d', '--destination', dest='dest', default=config['args']['dest'],
-                        help="the destination csv filename")
-
-    args = parser.parse_args()
-
-    config['args']['path'] = args.path
-    config['args']['dest'] = args.dest
-
-    # Initialize the Listdir object together with its arguments
-    # path argument: The path of the directory
-    # dest argument: The destination file
-    listdir = ListDir(path=config['args']['path'], dest=config['args']['dest'])
-
-    # Running the methods of the object
-    # listdir.print_files()
-    listdir.output_zip()
