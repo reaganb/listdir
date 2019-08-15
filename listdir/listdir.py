@@ -6,7 +6,6 @@ import logging.config
 from datetime import datetime as dt
 import os.path as op
 import yaml
-import json
 
 
 class ListDir:
@@ -15,7 +14,7 @@ class ListDir:
     listing of files in a certain path and writing it to another
     file (csv).
     """
-    def __init__(self, path, dest, yml_config, j_son=False,):
+    def __init__(self, path, dest, yml_config):
         """The init function consists of the path and destination file(csv)
         properties
 
@@ -23,9 +22,6 @@ class ListDir:
         path -- the directory path for recursive listing
         dest -- the output file
         """
-
-        # JSON output flag
-        self.j_son = j_son
 
         # Setup the logging module using yaml configuration
         conf_yml = op.join(op.dirname(op.abspath(__file__)), yml_config)
@@ -85,9 +81,6 @@ class ListDir:
         today = dt.today()
         zip_datetime = today.strftime('%Y-%m-%d-%H%M%S')
         with zipfile.ZipFile(f'{self.csv_file}_{zip_datetime}.zip', 'w') as zip_file:
-            print("json?", self.j_son)
-            if self.j_son:
-                self.csv_file = f"{self.csv_file}.json"
 
             with open(self.csv_file, 'w+') as file:
 
@@ -95,17 +88,10 @@ class ListDir:
                 # Check if the element is a file then pass it to the mdata_list() function
                 # and append it to the generator object elements
                 # Iterate through the generator object then write each element to the output file
-                if not self.j_son:
-                    file.write('parent path,filename,filesize,md5,sha1')
-                    for line in (self.mdata_to_list(csv) for csv in self.files if op.isfile(csv)):
-                        self.logger.info(f"\n{line}")
-                        file.write(f"\n{line}")
-                else:
-                    data = []
-                    for line in (self.mdata_to_list(csv) for csv in self.files if op.isfile(csv)):
-                        self.logger.info(f"\n{line}")
-                        data.append(line)
-                    json.dump(data, file, indent=4)
+                file.write('parent path,filename,filesize,md5,sha1')
+                for line in (self.mdata_to_list(csv) for csv in self.files if op.isfile(csv)):
+                    self.logger.info(f"\n{line}")
+                    file.write(f"\n{line}")
 
             zip_file.write(self.csv_file)
 
@@ -122,15 +108,5 @@ class ListDir:
         md5 = self.hash_file(csv, 'md5')
         sha1 = self.hash_file(csv, 'sha1')
         size = op.getsize(csv)
-        if not self.j_son:
-            return f"{directory}, {file_name}, {size}, {md5}, {sha1}"
-        else:
-            directory = f"{op.dirname(csv)}"
-            file_name = f"{op.basename(csv)}"
-            return {
-                'directory': directory,
-                'file name': file_name,
-                'size': size,
-                'md5': md5,
-                'sha1': sha1,
-            }
+
+        return f"{directory}, {file_name}, {size}, {md5}, {sha1}"

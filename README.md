@@ -1,15 +1,14 @@
-# Machine Problem: JSON output
+# Machine Problem: Logging
 
-#### This machine problem builds on your code from Machine Problem "Logging". 
-
-1. Modify Machine Problem 4 and add a functionality to output JSON instead of CSV
-    1. This functionality is enabled when an argument is used
-2. Commit your code to a branch named "json-output"
-3. Paste the link to the branch here
+#### This machine problem builds on your code from Machine Problem "List Comprehensions and Generators".
+1. Modify Machine Problem "List Comprehensions and Generators" to implement logging
+    1. You must log both via stdout and on a rolling file
+    2. Rolling file max limit should be 5mb with a maximum of 5 files
+    3. Use YAML as the logging configuration format of the file
 
 ## The listdir module
 
-The python module has the functionality to recursively read and list files of a directory path and write the output to another file (csv or json format) and archive that file (zip). The zip file has a name format combining csv or json format file name and the current date and time of creation (outputfile_YYYY-MM-DD-HHmmss.zip). The filename of the zip file conform to the ISO 8601 format standard.
+The python module has the functionality to recursively read and list files of a directory path and write the output to another file (csv format) and archive that file (zip). The zip file has a name format combining csv format file name and the current date and time of creation (outputfile_YYYY-MM-DD-HHmmss.zip). The filename of the zip file conform to the ISO 8601 format standard.
 
 ### Prerequisites
 1. Windows/Linux OS
@@ -24,7 +23,7 @@ $ python --version
 
 ### Installation
 ```
-$ git clone -b json-output https://github.com/rgbtrend/listdir.git
+$ git clone -b logging https://github.com/rgbtrend/listdir.git
 ```
 Clone this branch
 ```
@@ -35,20 +34,18 @@ Install this package
 
 ### Running the package as a script
 
-#### Examples
+#### Example
 ```
 $ python -m listdir
+
+"/home/user/Projects/listdir", "setup.py", 786, edaab1bfb00c687ea31cba9e6c1f037c, 4dc1759166e76cbbfb90690bd63ffbea133df6c0
+2019-08-15 23:01:09,720 -- listdir.listdir -- INFO -- 
 ```
-Running without any arguments will produce the output(csv format) file, zip file, and log file. It will also print on the console the recursive list of files from the given directory path in a logging format that is based on the yml configuration.
+**sample output only**
+
+Running without any arguments will produce the output(csv format) file, zip file, and log file. It will also print on the console the recursive list of files from the given directory path (.) in a logging format that is based on the yml configuration.
 ```
 $ ls
 files.txt files.txt_2019-08-XX-XXXXXX.zip rolling.log
 ``` 
 The output filename is based on the config.ini file and the log filename is based on the config.yml file.
-
-```
-$ python -m listdir -j
-$ ls
-files.txt.json files.txt.json_2019-08-XX-XXXXXX.zip rolling.log
-``` 
-Providing the -j flag will produced a json format output file.
