@@ -25,8 +25,11 @@ if __name__ == "__main__":
     # Initialize the Listdir object together with its arguments
     # path argument: The path of the directory
     # dest argument: The destination file
-    listdir = listdir.ListDir(path=config['args']['path'], dest=config['args']['dest'], j_son=args.j_son)
+    # yml_config argument: The yml config for logging
+    # j_son argument: Set the flag for json format output
+    listdir = listdir.ListDir(path=config['args']['path'], dest=config['args']['dest'],
+                              yml_config=config['args']['yml_config'], j_son=args.j_son)
 
-    # Running the methods of the object
+    # Running the method of the object
     listdir.output_zip()
 

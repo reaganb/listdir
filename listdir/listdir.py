@@ -15,7 +15,7 @@ class ListDir:
     listing of files in a certain path and writing it to another
     file (csv).
     """
-    def __init__(self, path, dest, j_son=False):
+    def __init__(self, path, dest, yml_config, j_son=False,):
         """The init function consists of the path and destination file(csv)
         properties
 
@@ -24,21 +24,33 @@ class ListDir:
         dest -- the output file
         """
 
-        self.j_son = json
+        # JSON output flag
+        self.j_son = j_son
 
-        self.setup_logging()
+        # Setup the logging module using yaml configuration
+        conf_yml = op.join(op.dirname(op.abspath(__file__)), yml_config)
+        if op.exists(conf_yml):
+            with open(conf_yml) as f:
+                try:
+                    config = yaml.safe_load(f.read())
+                    logging.config.dictConfig(config)
+                except yaml.YAMLError:
+                    logging.basicConfig(level=logging.INFO)
+                    logging.error("Using default configuration for logging.")
+        else:
+            logging.basicConfig(level=logging.INFO)
+            logging.error("Failed to load config.yml, default configuration for logging.")
+
         self.logger = logging.getLogger(__name__)
 
         self.path = op.abspath(path)
         # Check if the path exist
         if not op.exists(self.path):
             self.logger.error('Path does not exist!')
-            # print('Error: Path does not exist!')
             exit(0)
         # Check if only a path, not a file is given as the argument
         elif not op.isdir(self.path):
-            self.logger.error('Path are only allowed as the argument')
-            # print('Error: Path are only allowed as the argument')
+            self.logger.error('Path are only allowed as the argument!')
             exit(0)
 
         self.csv_file = dest
@@ -73,7 +85,7 @@ class ListDir:
         today = dt.today()
         zip_datetime = today.strftime('%Y-%m-%d-%H%M%S')
         with zipfile.ZipFile(f'{self.csv_file}_{zip_datetime}.zip', 'w') as zip_file:
-
+            print("json?", self.j_son)
             if self.j_son:
                 self.csv_file = f"{self.csv_file}.json"
 
@@ -122,20 +134,3 @@ class ListDir:
                 'md5': md5,
                 'sha1': sha1,
             }
-
-    def setup_logging(self, default_path='config.yaml', default_level=logging.INFO):
-
-        path = op.join(op.dirname(op.abspath(__file__)), default_path)
-        if op.exists(path):
-            print('yml exist')
-            with open(path,'rt') as f:
-                try:
-                    config = yaml.safe_load(f.read())
-                    logging.config.dictConfig(config)
-                except Exception as e:
-                    print(e)
-                    print('Error in Logging Configuration. Using default configs')
-                    logging.basicConfig(level=default_level)
-        else:
-            logging.basicConfig(level=default_level)
-            print('Failed to load configuration file. Using default configs')

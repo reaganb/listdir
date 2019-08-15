@@ -22,4 +22,9 @@ setup(name='listdir-rgb',
       packages=find_packages(),
       package_data={
             '': ['*.ini','*.yml'],
-      })
+      },
+      install_requires=[
+          'pyyaml',
+      ],
+
+      )
